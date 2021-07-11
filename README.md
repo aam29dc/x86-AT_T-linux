@@ -5,7 +5,7 @@ demonstrates use of interupts, and maintence of the stack when calling and retur
 
 (c function calling convention)
 
-to asseble, link and run in linux bash terminal:
+to asseble, link and run in linux bash terminal (gcc):
 
   `as --32 main.asm -o main.o`
   
