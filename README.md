@@ -4,8 +4,15 @@ to assemble, link and run in linux bash terminal (gcc):
 
   `as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main`
 
-# 12321321 #
 
+immediate mode ($) on an element in the .data or .bss segment references the address,
+alone without immediate mode, it'll dereference the element to get the value.
+````assembly
+  movl 4, %eax          #  takes the value at address 4 and moves it into eax
+  movl $4, %eax         #  moves the value 4 into eax
+````
+
+add positive number of bytes to the address to get further elements
 ````assembly
 .section .data
   arr: .long 0,1,2,3,4,5
