@@ -20,11 +20,27 @@ _start:
   addl $4, %ebx          #  adds 4 (bytes) to the address at ebx
   movl (%ebx), %ebx      #  replaces the address stored at ebx with the value at that address
 ````
-`push` is equal to a `sub` and then a `mov`, a `pop` a `mov` then an `add`. In the `_start` function `movl %esp, %ebp` to setup the base pointer; to be able to reference it.
-
+`push` is equal to a `sub` and then a `mov`, a `pop` a `mov` then an `add`. In the `_start` function `movl %esp, %ebp` to setup the base pointer; to be able to reference it. We should be able to replace -4(%ebp) with (%esp), but we use ebp as our reference, and add/sub to esp to move it.
 ````assembly
 .section .text
-  .globl _start
-  _start:
-    
+	.globl _start
+	_start:
+		movl %esp, %ebp
+		
+		#push $123
+		subl $4, %esp
+		movl $123, -4(%ebp)
+		
+		# mov into a register, do something to it, move it back
+		movl -4(%ebp), %ebx
+		incl %ebx
+		movl %ebx, -4(%ebp)
+		
+		# value gets echo'd through this register
+		movl -4(%ebp), %ebx
+		
+		#pop
+		addl $4, %esp
+		movl $1, %eax
+		int $0x80
 ````
