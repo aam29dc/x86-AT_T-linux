@@ -14,3 +14,11 @@ to assemble, link and run in linux bash terminal (gcc):
   `./main`
   
   `echo $?`
+
+````assembly_x86
+.section .data
+.section .text
+  .globl _start
+  _start:
+    movl $1, %eax
+````
