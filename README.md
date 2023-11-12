@@ -15,7 +15,7 @@ to assemble, link and run in linux bash terminal (gcc):
   
   `echo $?`
 
-````assembly_x86
+````assembly
 .section .data
 .section .text
   .globl _start
