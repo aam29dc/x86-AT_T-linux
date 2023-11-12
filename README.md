@@ -46,6 +46,7 @@ _start:
 ````
 
 c calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee).
+
 Caller:
 	1. EAX, ECX, EDX are saved caller registers
 	2. parameters reverse order, onto the stack
@@ -71,6 +72,7 @@ Caller:
 		popl %eax
 		...
 ````
+
 Callee:
 	1. save old base pointer
  	2. update base pointer
