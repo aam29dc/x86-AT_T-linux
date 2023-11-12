@@ -20,3 +20,11 @@ _start:
   addl $4, %ebx          #  adds 4 (bytes) to the address at ebx
   movl (%ebx), %ebx      #  replaces the address stored at ebx with the value at that address
 ````
+`push` is equal to a `sub` and then a `mov`, a `pop` a `mov` then an `add`. In the `_start` function `movl %esp, %ebp` to setup the base pointer; to be able to reference it.
+
+````assembly
+.section .text
+  .globl _start
+  _start:
+    
+````
