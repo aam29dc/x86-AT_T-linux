@@ -25,7 +25,8 @@ _start:
 .section .text
 	.globl _start
 	_start:
-		movl %esp, %ebp
+		movl %esp, %ebp		#	different setup for the _start function, without this i can't use ebp
+					#	as a reference
 		
 		#push $123
 		subl $4, %esp
