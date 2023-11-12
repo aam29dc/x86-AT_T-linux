@@ -1,8 +1,7 @@
 # x86-GAS-AT&T-linux-notes
 
 to assemble, link and run in linux bash terminal (gcc):
-
-  `as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main`
+`as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main`
 
 ````assembly
   movl 4, %eax          #  takes the value at address 4 and moves it into eax
@@ -44,4 +43,61 @@ _start:
 		addl $4, %esp
 		movl $1, %eax
 		int $0x80
+````
+
+c calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee).
+Caller:
+	1. EAX, ECX, EDX are saved caller registers
+	2. parameters reverse order, onto the stack
+	3. call the callee
+	4. remove parameters
+	5. return value in %eax
+	6. restore contents of caller saved registers
+````assembly
+.section .text
+	.globl _start
+	_start:
+		...
+		pushl %eax	# save registers before calling function
+		pushl %ecx
+		pushl %edx
+		pushl $1	# last para
+		pushl var	# first para
+		call callee	# the callee
+		addl $8, %esp	# remove parameters
+				# return value in EAX
+		popl %edx	# restore registers
+		popl %ecx
+		popl %eax
+		...
+````
+Callee:
+	1. save old base pointer
+ 	2. update base pointer
+  	3. allocate storage for local variables
+   	4. save callee registers
+    	...
+     	5. restore callee registers
+      	6. mov stack pointer back to base pointer
+       	7. restore base pointer
+	8. return
+````assembly
+	.globl callee
+	.type callee, @function
+	callee:
+		pushl %ebp	# save old ebp for before function returns
+		movl %esp, %ebp	# update base pointer
+		subl $4, %esp	# allocate storage for local variable(s)
+
+		pushl %ebx	# save callee registers
+		pushl %edi
+		pushl %esi
+		...		# do something
+		popl %esi	# restore callee registers
+		popl %edi
+		popl %ebx
+
+		movl %ebp, %esp	# removes local variable storage
+		popl %ebp	# restore old base pointer
+		ret		# pop ret add off into eip
 ````
