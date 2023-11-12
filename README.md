@@ -4,7 +4,7 @@ to assemble, link and run in linux bash terminal (gcc):
 
   `as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main`
 
-## 12321321 ##
+# 12321321 #
 
 ````assembly
 .section .data
