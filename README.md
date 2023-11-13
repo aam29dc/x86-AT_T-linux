@@ -124,19 +124,22 @@ str_len:
 		int $0x80
 ````
 ______________________________________________________________________________________________________________________________________________________
-To get an address of a local variable on the stack, add ebp and the offset. To dereference a local variable (which holds an address) in the stack, move it to a register.
+To get an address of a local variable on the stack, add ebp and the offset; this is equal to a LEA of the variable into a register. To dereference a local variable (which holds an address) in the stack, move it to a register.
 ````assembly
 	subl $8, %esp
 	.equ A, -4
 	.equ B, -8
-
-	movl $30, A(%ebp)		# a = 30
-
-	# b = &a
-	movl $A, B(%ebp)		# add the offset of A and the base point to b, now *b = a
-	addl %ebp, B(%ebp)
 	
-	#*b = 30			# mov B to a register, to dereference the address it holds 
+	# a = 123
+	movl $123, A(%ebp)
+	
+	# b = &a
+	#movl $A, B(%ebp)	# adding A's offset to EBP is the address of A
+	#addl %ebp, B(%ebp)
+	leal A(%ebp), %ebx	# which is equal to a LEA of A into a register, then
+	movl %ebx, B(%ebp)	# moving the contents of that register back into B
+	
+	#*b = 30		# move the address stored in B to eax, to dereference it
 	movl B(%ebp), %eax
 	movl $30, (%eax)
 ````
