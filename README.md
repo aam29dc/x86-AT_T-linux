@@ -105,7 +105,7 @@ Callee:
 ````
 
 each character is a byte in a string,	%ebx holds the address of str, the first byte is the 0 character, addl $1, %ebx increments address to next byte, movb (%ebx), %bl moves the byte located at address %ebx into bl.
-````
+````assembly
 .section .data
 str:
 	.ascii "0a\0"
