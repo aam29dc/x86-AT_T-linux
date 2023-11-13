@@ -103,3 +103,22 @@ Callee:
 		popl %ebp	# restore old base pointer
 		ret		# pop ret add off into eip
 ````
+
+each character is a byte in a string,	%ebx holds the address of str, the first byte is the 0 character, addl $1, %ebx increments address to next byte, movb (%ebx), %bl moves the byte located at address %ebx into bl.
+````
+.section .data
+str:
+	.ascii "0a\0"
+str_len:
+	.long str-str_len
+.section .text
+	.globl _start
+	_start:
+		movl $str, %ebx
+		#addb $1, %bl
+		#addw $1, %bx
+		addl $1, %ebx		# ^ all do the same thing
+		movb (%ebx), %bl	# dereference the value of the first byte, store it into %bl
+		movl $1, %eax
+		int $0x80
+````
