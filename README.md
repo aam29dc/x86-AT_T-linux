@@ -163,5 +163,4 @@ brk() syscall (%ebx = 0 ) initially returns the beginning of the heap ( the firs
 returns a new_address on success rounded up/down a page (4096 bytes), and current address on failure. It sets the program break in heap, which allows for dynamic memory management.
 First init heap_begin, and current_break, to current break position (on init they'll both be the beginning of the heap). Then allocate storage on heap,
 by using brk to move current break position. Mark locations as used/unused. When freeing memory, just mark it unused. Moving the break position back removes available memory from the heap.
-````assembly
-````
+______________________________________________________________________________________________________________________________________________________
