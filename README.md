@@ -132,7 +132,7 @@ To get an address of a local variable on the stack, add ebp and the offset. To d
 
 	movl $30, A(%ebp)		# a = 30
 
-	# b = $a
+	# b = &a
 	movl $A, B(%ebp)		# add the offset of A and the base point to b, now *b = a
 	addl %ebp, B(%ebp)
 	
