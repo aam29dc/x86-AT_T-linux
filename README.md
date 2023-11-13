@@ -4,7 +4,7 @@ to assemble, link and run in linux bash terminal (gcc):
 `as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main`
 
 ______________________________________________________________________________________________________________________________________________________
-immediate mode (`$`) on an element in the .data or .bss segment references the address, alone without immediate mode, it'll dereference the element to get the value. Add positive number of bytes to the address to get further elements
+immediate mode (`$`) on an element in the .data or .bss segment references the address. Without ($) immediate mode, it'll dereference the element to get the value. Add positive number of bytes to the address to get further elements
 ````assembly
 .section .data
   arr: .long 0,1,2,3,4,5
@@ -157,4 +157,10 @@ func:
 	# movl %ebp, %esp
 	# popl %ebp
 	ret
+````
+______________________________________________________________________________________________________________________________________________________
+brk() syscall returns a new address on success, and current address on failure. It sets the program break in heap, which allows for dynamic memory
+management. First init heap_begin, and current_break, to current break position (on init they'll both be the beginning of the heap). Then allocate storage on heap, by using brk
+to move current break position. Mark locations as used/unused. When freeing memory, just mark it unused. Moving the break position back removes available memory from the heap
+````assembly
 ````
