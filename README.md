@@ -19,6 +19,7 @@ _start:
   addl $4, %ebx          #  adds 4 (bytes) to the address at ebx
   movl (%ebx), %ebx      #  replaces the address stored at ebx with the value at that address
 ````
+______________________________________________________________________________________________________________________________________________________
 `push` is equal to a `sub` and then a `mov`, a `pop` a `mov` then an `add`. In the `_start` function `movl %esp, %ebp` to setup the base pointer; to be able to reference it. We should be able to replace -4(%ebp) with (%esp), but we use ebp as our reference, and add/sub to esp to move it.
 ````assembly
 .section .text
@@ -44,7 +45,7 @@ _start:
 		movl $1, %eax
 		int $0x80
 ````
-
+______________________________________________________________________________________________________________________________________________________
 c calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee).
 
 Caller:
@@ -72,7 +73,7 @@ Caller:
 		popl %eax
 		...
 ````
-
+______________________________________________________________________________________________________________________________________________________
 Callee:
 	1. save old base pointer
  	2. update base pointer
@@ -103,7 +104,7 @@ Callee:
 		popl %ebp	# restore old base pointer
 		ret		# pop ret add off into eip
 ````
-
+______________________________________________________________________________________________________________________________________________________
 each character is a byte in a string,	%ebx holds the address of str, the first byte is the 0 character, addl $1, %ebx increments address to next byte, movb (%ebx), %bl moves the byte located at address %ebx into bl.
 ````assembly
 .section .data
