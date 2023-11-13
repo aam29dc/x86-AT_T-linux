@@ -4,7 +4,7 @@ to assemble, link and run in linux bash terminal (gcc):
 `as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main`
 
 ______________________________________________________________________________________________________________________________________________________
-immediate mode ($) on an element in the .data or .bss segment references the address, alone without immediate mode, it'll dereference the element to get the value. Add positive number of bytes to the address to get further elements
+immediate mode (`$`) on an element in the .data or .bss segment references the address, alone without immediate mode, it'll dereference the element to get the value. Add positive number of bytes to the address to get further elements
 ````assembly
 .section .data
   arr: .long 0,1,2,3,4,5
@@ -46,14 +46,14 @@ ________________________________________________________________________________
 		int $0x80
 ````
 ______________________________________________________________________________________________________________________________________________________
-c calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee).
+C calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee).
 
 Caller:
-	1. EAX, ECX, EDX are saved caller registers
-	2. parameters reverse order, onto the stack
-	3. call the callee
-	4. remove parameters
-	5. return value in %eax
+	1. EAX, ECX, EDX are saved caller registers, 
+	2. parameters reverse order, onto the stack, 
+	3. call the callee, 
+	4. remove parameters, 
+	5. return value in %eax, 
 	6. restore contents of caller saved registers
 ````assembly
 .section .text
@@ -73,16 +73,15 @@ Caller:
 		popl %eax
 		...
 ````
-______________________________________________________________________________________________________________________________________________________
 Callee:
-	1. save old base pointer
- 	2. update base pointer
-  	3. allocate storage for local variables
-   	4. save callee registers
+	1. save old base pointer, 
+ 	2. update base pointer, 
+  	3. allocate storage for local variables, 
+   	4. save callee registers, 
     	...
-     	5. restore callee registers
-      	6. mov stack pointer back to base pointer
-       	7. restore base pointer
+     	5. restore callee registers, 
+      	6. mov stack pointer back to base pointer, 
+       	7. restore base pointer, 
 	8. return
 ````assembly
 	.globl callee
@@ -105,7 +104,7 @@ Callee:
 		ret		# pop ret add off into eip
 ````
 ______________________________________________________________________________________________________________________________________________________
-each character is a byte in a string,	%ebx holds the address of str, the first byte is the 0 character, addl $1, %ebx increments address to next byte, movb (%ebx), %bl moves the byte located at address %ebx into bl.
+each character is a byte in a string,	%ebx holds the address of str, the first byte is the 0 character, `addl $1, %ebx` increments address to next byte, `movb (%ebx), %bl` moves the byte located at address %ebx into bl.
 ````assembly
 .section .data
 str:
@@ -144,7 +143,7 @@ To get an address of a local variable on the stack, add ebp and the offset; this
 	movl $30, (%eax)
 ````
 ______________________________________________________________________________________________________________________________________________________
-enter is the same as seting up the stack frame, and local variables. leave is the same as restoring stack frame back
+`enter $0, $0` is the same as seting up the stack frame, and local variables. `leave` is the same as restoring stack frame back
 ````assembly
 .globl func
 .type func, @function
