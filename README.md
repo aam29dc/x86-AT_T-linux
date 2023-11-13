@@ -165,8 +165,11 @@ First init heap_begin, and current_break, to current break position (on init the
 by using brk to move current break position. Mark locations as used/unused. When freeing memory, just mark it unused. Moving the break position back removes available memory from the heap.
 ______________________________________________________________________________________________________________________________________________________
 `mull` takes one operand, its unsigned multiplication by %eax, then the result is stored in %eax.
+
 `imull` takes one or two operands. If one operand then works like `mull`, otherwise `imull %ebx, %eax` is eax = eax * ebx
+
 `divl` and `idivl` take one or two operands. Divisor = %eax, Dividend = any register, Quotient = %eax, Remainder = %edx.
+
 ````assembly
 	movl $123, %eax
 	movl $10, %ebx
