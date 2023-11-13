@@ -46,15 +46,15 @@ ________________________________________________________________________________
 		int $0x80
 ````
 ______________________________________________________________________________________________________________________________________________________
-C calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee).
+C calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee). <br>
 
-Caller:
-	1. EAX, ECX, EDX are saved caller registers, 
-	2. parameters reverse order, onto the stack, 
-	3. call the callee, 
-	4. remove parameters, 
-	5. return value in %eax, 
-	6. restore contents of caller saved registers
+Caller:<br>
+	1. EAX, ECX, EDX are saved caller registers, <br>
+	2. parameters reverse order, onto the stack, <br>
+	3. call the callee, <br>
+	4. remove parameters, <br>
+	5. return value in %eax, <br>
+	6. restore contents of caller saved registers <br>
 ````assembly
 .section .text
 	.globl _start
@@ -73,16 +73,16 @@ Caller:
 		popl %eax
 		...
 ````
-Callee:
-	1. save old base pointer, 
- 	2. update base pointer, 
-  	3. allocate storage for local variables, 
-   	4. save callee registers, 
-    	...
-     	5. restore callee registers, 
-      	6. mov stack pointer back to base pointer, 
-       	7. restore base pointer, 
-	8. return
+Callee: <br>
+	1. save old base pointer, <br>
+ 	2. update base pointer, <br>
+  	3. allocate storage for local variables, <br>
+   	4. save callee registers, <br>
+    	... <br>
+     	5. restore callee registers, <br>
+      	6. mov stack pointer back to base pointer, <br>
+       	7. restore base pointer, <br>
+	8. return <br>
 ````assembly
 	.globl callee
 	.type callee, @function
@@ -165,8 +165,8 @@ First init heap_begin, and current_break, to current break position (on init the
 by using brk to move current break position. Mark locations as used/unused. When freeing memory, just mark it unused. Moving the break position back removes available memory from the heap.
 ______________________________________________________________________________________________________________________________________________________
 `mull` takes one operand, its unsigned multiplication by %eax, then the result is stored in %eax. <br>
-`imull` takes one or two operands. If one operand then works like `mull`, otherwise `imull %ebx, %eax` is eax = eax * ebx.
-`divl` and `idivl` take one or two operands. Divisor = %eax, Dividend = any register, Quotient = %eax, Remainder = %edx.
+`imull` takes one or two operands. If one operand then works like `mull`, otherwise `imull %ebx, %eax` is eax = eax * ebx. <br>
+`divl` and `idivl` take one or two operands. Divisor = %eax, Dividend = any register, Quotient = %eax, Remainder = %edx. <br>
 
 ````assembly
 	movl $123, %eax
