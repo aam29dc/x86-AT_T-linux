@@ -143,3 +143,19 @@ To get an address of a local variable on the stack, add ebp and the offset; this
 	movl B(%ebp), %eax
 	movl $30, (%eax)
 ````
+______________________________________________________________________________________________________________________________________________________
+enter is the same as seting up the stack frame, and local variables. leave is the same as restoring stack frame back
+````assembly
+.globl func
+.type func, @function
+func:
+	# pushl %ebp
+	# movl %esp, %ebp
+	$ subl $4, %esp
+	enter $4, $0
+
+	leave
+	# movl %ebp, %esp
+	# popl %ebp
+	ret
+````
