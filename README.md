@@ -123,3 +123,20 @@ str_len:
 		movl $1, %eax
 		int $0x80
 ````
+______________________________________________________________________________________________________________________________________________________
+To get an address of a local variable on the stack, add ebp and the offset. To dereference a local variable (which holds an address) in the stack, move it to a register.
+````assembly
+	subl $8, %esp
+	.equ A, -4
+	.equ B, -8
+
+	movl $30, A(%ebp)		# a = 30
+
+	# b = $a
+	movl $A, B(%ebp)		# add the offset of A and the base point to b, now *b = a
+	addl %ebp, B(%ebp)
+	
+	#*b = 30			# mov B to a register, to dereference the address it holds 
+	movl B(%ebp), %eax
+	movl $30, (%eax)
+````
