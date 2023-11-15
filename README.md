@@ -1,12 +1,12 @@
 # x86-AT&T-linux-GAS-notes
 
-seperate source files can be `as` assembled alone, then `ld` linked with other object files to include/use their sources:
-`as alloc.s -o alloc.o`, then `as ex.s -o ex.o && ld ex.o alloc.o -o program`
-or you can `.include "alloc.s" in ex.s`, `#include` uses c/c++ include
+seperate source files can be `as` assembled alone, then `ld` linked with other object files to include/use their sources: <br>
+`as alloc.s -o alloc.o`, then `as ex.s -o ex.o && ld ex.o alloc.o -o program` <br>
+or you can `.include "alloc.s" in ex.s`, `#include` uses c/c++ include <br>
 
-an error with directories from linker, so I put my asm folder in `/home/user/` (my name is user), and it links the source files, otherwise it comes up with cant find file.
+an error with directories from linker, so I put my asm folder in `/home/user/` (my name is user), and it links the source files, otherwise it comes up with cant find file. <br>
 
-`as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main`
+`as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main` <br>
 
 ______________________________________________________________________________________________________________________________________________________
 immediate mode (`$`) on an element in the .data or .bss segment references the address. Without ($) immediate mode, it'll dereference the element to get the value. Add positive number of bytes to the address to get further elements
