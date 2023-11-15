@@ -1,6 +1,11 @@
 # x86-AT&T-linux-GAS-notes
 
-to assemble, link and run in linux bash terminal (gcc):
+seperate source files can be `as` assembled alone, then `ld` linked with other object files to include/use their sources:
+`as alloc.s -o alloc.o`, then `as ex.s -o ex.o && ld ex.o alloc.o -o program`
+or you can `.include "alloc.s" in ex.s`, `#include` uses c/c++ include
+
+an error with directories from linker, so I put my asm folder in `/home/user/` (my name is user), and it links the source files, otherwise it comes up with cant find file.
+
 `as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main`
 
 ______________________________________________________________________________________________________________________________________________________
