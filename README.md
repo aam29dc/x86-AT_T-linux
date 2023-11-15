@@ -156,7 +156,7 @@ func:
 	leave
 	# movl %ebp, %esp
 	# popl %ebp
-	ret
+	ret	# if this were _start we'd call SYS_EXIT int instead, this moves RET address into EIP
 ````
 ______________________________________________________________________________________________________________________________________________________
 brk() syscall (%ebx = 0 ) initially returns the beginning of the heap ( the first address after the end of the programs bss segment). Then (%ebx = new_address) 
