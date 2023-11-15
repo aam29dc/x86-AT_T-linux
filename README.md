@@ -4,6 +4,8 @@ seperate source files can be `as` assembled alone, then `ld` linked with other o
 `as alloc.s -o alloc.o`, then `as ex.s -o ex.o && ld ex.o alloc.o -o program` <br>
 or you can `.include "alloc.s"` in ex.s, `#include` uses c/c++ include <br>
 
+The C Preprocessor (Macros, etc) can be used our assembly files ('gas' GNU Assembler).
+
 an error with directories from linker, so I put my asm folder in `/home/user/` (my name is user), and it links the source files, otherwise it comes up with cant find file. <br>
 
 `as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main` <br>
