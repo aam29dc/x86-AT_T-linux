@@ -176,7 +176,7 @@ ________________________________________________________________________________
 `divl` and `idivl` take one or two operands. Dividend = %edx:%eax (EDX:EAX is 64 bits made up of two 32 bit registers.), Divisor = any (32bit) register, Quotient = %eax, Remainder = %edx. <br>
 
 ````assembly
-	movl $0, %edx		# sign is positive, so 0, otherwise movl $-1, %edx, then movl $-123, %eax
+	movl $0, %edx		# sign is positive, so 0, otherwise movl $-1, %edx, then movl $-123, %eax, with idiv
 	movl $123, %eax		# dividend
 	movl $10, %ebx		# divisor
 	divl %ebx		# same as divl %ebx, %eax
