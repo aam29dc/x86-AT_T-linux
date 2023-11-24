@@ -173,12 +173,13 @@ by using brk to move current break position. Mark locations as used/unused. When
 ______________________________________________________________________________________________________________________________________________________
 `mull` takes one operand, its unsigned multiplication by %eax, then the result is stored in %eax. <br>
 `imull` takes one or two operands. If one operand then works like `mull`, otherwise `imull %ebx, %eax` is eax = eax * ebx. <br>
-`divl` and `idivl` take one or two operands. Divisor = %eax, Dividend = any register, Quotient = %eax, Remainder = %edx. <br>
+`divl` and `idivl` take one or two operands. Dividend = %edx:%eax (EDX:EAX is 64 bits made up of two 32 bit registers.), Divisor = any (32bit) register, Quotient = %eax, Remainder = %edx. <br>
 
 ````assembly
-	movl $123, %eax
-	movl $10, %ebx
-	divl %ebx	#	same as divl %ebx, %eax
+	movl $0, %edx
+	movl $123, %eax		# dividend
+	movl $10, %ebx		# divisor
+	divl %ebx		# same as divl %ebx, %eax
 	# quotient in %eax, remainder in %edx
 ````
 ______________________________________________________________________________________________________________________________________________________
