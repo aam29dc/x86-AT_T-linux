@@ -1,5 +1,3 @@
-#include "alloc.s"
-#include "print.s"
 #include "list.s"
 .section .text
 #
