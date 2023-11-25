@@ -183,3 +183,13 @@ ________________________________________________________________________________
 	# quotient in %eax, remainder in %edx
 ````
 ______________________________________________________________________________________________________________________________________________________
+buffers are bytes in length, when writing to a buffer that is an array of chars (bytes), be sure to use movb otherwise a higher order mov like movl will overwrite the buffer 4 bytes over,.
+````assembly
+.section .bss
+	.lcomm buffer, 256
+.section .text
+	...
+	movb $1, buffer(,%edi,1)	# 	writes the first byte of buffer, with a value of 1
+	...
+	movl $1, buffer(,%edi,1)	#	writes the first 4 bytes of buffer, with a value of 1
+````
