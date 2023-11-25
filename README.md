@@ -183,7 +183,7 @@ ________________________________________________________________________________
 	# quotient in %eax, remainder in %edx
 ````
 ______________________________________________________________________________________________________________________________________________________
-buffers are bytes in length, when writing to a buffer that is an array of chars (bytes), be sure to use movb otherwise a higher order mov like movl will overwrite the buffer 4 bytes over,.
+buffers are bytes in length, when writing to a buffer that is an array of chars (bytes), be sure to use `movb` otherwise a higher order mov like `movl` will overwrite the buffer 4 bytes over.
 ````assembly
 .section .bss
 	.lcomm buffer, 256
