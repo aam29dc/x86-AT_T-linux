@@ -62,7 +62,7 @@ ________________________________________________________________________________
 		int $0x80
 ````
 ______________________________________________________________________________________________________________________________________________________
-C calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee). <br>
+##C calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee). <br>
 
 Caller:<br>
 	1. EAX, ECX, EDX are saved caller registers, <br>
@@ -203,7 +203,7 @@ buffers are bytes in length, when writing to a buffer that is an array of chars 
 	movl $1, buffer(,%edi,1)	#	writes the first 4 bytes of buffer, with a value of 1
 ````
 ______________________________________________________________________________________________________________________________________________________
-Using the C library in assembly:<br>
+##Using the C library in assembly:<br>
 
 Use `main` instead of `_start`, and use `call exit`. printf(...) is a variadic function, which takes a variable number of parameters, which uses `%al`, so set to 0 by `xor %eax, %eax` before a call to printf to not use vector registers. <br>
 The `call` instruction pushes 8 bytes (return address) onto the stack, but the Stack Pointer must be aligned by 16-bytes; a `push %rax` and `pop %rax` before and after a call is required to realign the stack pointer, otherwise resulting in a segmentation fault. In main we can just `ret`.<br>
@@ -226,7 +226,7 @@ main:
 	ret
 ````
 ______________________________________________________________________________________________________________________________________________________
-FPU Register Stack vs SSE. <br>
+##FPU Register Stack vs SSE. <br>
 ______________________________________________________________________________________________________________________________________________________
 FPU Register Stack: we have 8 FP registers named `st(0)` to `st(7)` or `mm0` to `mm7`, st(0) always points to the top of the stack.<br>
 --Operations on floating point numbers are done in these registers; returns are stored in st(0); local variables use `fstp -4(%ebp)` to pop off FP stack into memory location on regular stack.<br>
