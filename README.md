@@ -240,6 +240,9 @@ format:		.string "%f\n"
 		fmul %st(1), %st(0)	# only certain FPU registers can be used. multplies st(0) * st(1) and stores it in st(0)
 		fstps f1		# pop off top of FPU stack, which is st(0), into memory location f1
 
+		fldz			# push 0.0f onto FP stack
+		ftps f3			# pop off into f3
+
 		movsd f1, %xmm0		# s = single, d = double word, q = quad word
 		cvrtss2sd %xmm0, %xmm0	# convert single precision to double precision and store it
 
