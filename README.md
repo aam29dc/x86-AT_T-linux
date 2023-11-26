@@ -194,9 +194,11 @@ buffers are bytes in length, when writing to a buffer that is an array of chars 
 	movl $1, buffer(,%edi,1)	#	writes the first 4 bytes of buffer, with a value of 1
 ````
 ______________________________________________________________________________________________________________________________________________________
-Using the C library in assembly. Use `main` instead of `_start`, and use `call exit`. printf(...) is a variadic function, which takes a variable number of parameters,
-which uses `%al`, set to 0 by `xor %eax, %eax` before a a call to printf to not use vector registers. The `call` instruction pushes 8 bytes (return address) onto the stack, but the Stack Pointer must be aligned by 16-bytes; a `push %rax` and `pop %rax` before and after a call is required to realign the stack pointer, otherwise resulting in a segmentation fault. In main we can just `ret`. First goes in `rdi`, and and second parameter goes into `rsi`.
-
+Using the C library in assembly. Use `main` instead of `_start`, and use `call exit`. printf(...) is a variadic function, which takes a variable number of parameters, which uses `%al`, set to 0 by `xor %eax, %eax` before a a call to printf to not use vector registers. <br>
+The `call` instruction pushes 8 bytes (return address) onto the stack, but the Stack Pointer must be aligned by 16-bytes; a `push %rax` and `pop %rax` before and after a call is required to realign the stack pointer, otherwise resulting in a segmentation fault. In main we can just `ret`.<br>
+First parameter goes in `rdi`, <br>
+and second parameter goes into `rsi`.<br>
+<br>
 to assembly link, and run I used gcc: `gcc -no-pie -o file file.s && file`. gcc links in the c library, so no need to `#include`.
 ````assembly
 .section .data
