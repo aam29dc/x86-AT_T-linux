@@ -272,6 +272,7 @@ SSE: there are 16 FP registers (along w/ previous) named `xmm0` to `xmm15`.<br>
 d1:	.double 1.23
 d2:	.double 9.87
 d3:	.double 55.5
+format:	.string "%f\n"
 .section .text
 	.globl main
 	main:
