@@ -237,6 +237,7 @@ format:		.string "%f\n"
 		flds f1
 		flds f2
 		flds f3			# after this instruction, st(0) holds f3, and st(2) holds f1
+					# if we were to keep pushing, we'd run out of registers and stack overflow
 		fmul %st(1), %st(0)	# only certain FPU registers can be used. multplies st(0) * st(1) and stores it in st(0)
 		fstps f1		# pop off top of FPU stack, which is st(0), into memory location f1
 
