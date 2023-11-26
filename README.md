@@ -1,4 +1,4 @@
-# x86-AT&T-linux-GAS-notes
+# Linked list example (x86 AT&T linux GAS)
 `main.s` uses our linked `list.s`, our list uses our `alloc.s` and `print.s` library. Our allocator and print libraries are written using only system interrupts, which requires Linux. No external libraries are used for the project. <br>
 
 `alloc.s` is for allocating memory on the heap, the heap grows upward. We initialize variables heap_begin, and current_break. Then we allocate some memory, thus moving current_break. This memory has a header, for avail/unavail and its size. We can use the size in the header to know where the next memory is, etc. When we free we just mark the memory has available.<br>
@@ -8,7 +8,7 @@
 `print.s` takes a integer converts it to a string a prints (since we are not using printf) <br>
 
 ______________________________________________________________________________________________________________________________________________________
-
+# NOTES
 seperate source files can be `as` assembled alone, then `ld` linked with other object files to include/use their sources: <br>
 `as alloc.s -o alloc.o`, then `as main.s -o main.o && ld main.o alloc.o -o program` <br>
 or you can `.include "alloc.s"` in main.s, `#include` uses c/c++ include <br>
