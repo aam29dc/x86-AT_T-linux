@@ -1,5 +1,11 @@
 # x86-AT&T-linux-GAS-notes
 
+alloc.s is is for allocation memory on the heap, the heap grows upward. We initial heap_begin, and current_break. Then we allocate some memory, moving current_break. This memory has a header, for avail/unavail and its size. We can use the size in the header to know where the next memory is, etc. When we free we mark the memory has available.<br>
+
+list.s uses alloc.s to create a list on the heap, has simple functions<br>
+
+print.s takes a integer converts it to a string a prints<br>
+
 seperate source files can be `as` assembled alone, then `ld` linked with other object files to include/use their sources: <br>
 `as alloc.s -o alloc.o`, then `as ex.s -o ex.o && ld ex.o alloc.o -o program` <br>
 or you can `.include "alloc.s"` in ex.s, `#include` uses c/c++ include <br>
