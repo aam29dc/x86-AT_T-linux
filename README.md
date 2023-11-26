@@ -223,6 +223,6 @@ In 32bit mode, we have 8 FP registers named `st(0)` to `st(7)` or `mm0` to `mm7`
 --Operations on floating point numbers are done in these registers; returns are stored in st(0); local variables use `fstp -4(%ebp)` to pop off FP stack into memory location on regular stack.
 
 In 64bit mode, there are 16 FP registers (along w/ previous) named `xmm0` to `xmm15`.<br>
---We don't push and pop values onto a FP stack, we just use `movss`,`movsd` either s/d for single/double precision, but this mov cannot use immediate values, instead a constant must be stored reference memory.<br>
+--We don't push and pop values onto a FP stack, we just use `movss`,`movsd` either s/d for single/double precision, but this mov cannot use immediate values, instead a constant must be stored in memory.<br>
 --`cvtss2sd %xmm0, %xmm0` converts a single precision float to a double precision, and stores it back into `xmm0`<br>
 --`movsd name(%rip), %xmm0` is the same as `movsd name, %xmm0`<br>
