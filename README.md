@@ -7,6 +7,8 @@
 
 `print.s` takes a integer converts it to a string a prints (since we are not using printf) <br>
 
+______________________________________________________________________________________________________________________________________________________
+
 seperate source files can be `as` assembled alone, then `ld` linked with other object files to include/use their sources: <br>
 `as alloc.s -o alloc.o`, then `as main.s -o main.o && ld main.o alloc.o -o program` <br>
 or you can `.include "alloc.s"` in main.s, `#include` uses c/c++ include <br>
