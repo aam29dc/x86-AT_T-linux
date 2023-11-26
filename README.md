@@ -256,9 +256,10 @@ format:		.string "%f\n"
 ````
 ______________________________________________________________________________________________________________________________________________________
 In 64bit mode, there are 16 FP registers (along w/ previous) named `xmm0` to `xmm15`.<br>
---We don't push and pop values onto a FP stack, we just use `movss`,`movsd` either s/d for single/double precision, but this mov cannot use immediate values, instead a constant must be stored in memory.<br>
+--We don't push and pop values onto a FP stack, we just use `movss`,`movsd` either s/d for single/double precision, but this mov cannot use immediate values, instead a constant which must be stored in memory.<br>
 --`cvtss2sd %xmm0, %xmm0` converts a single precision float to a double precision, and stores it back into `xmm0`<br>
 --`movsd name(%rip), %xmm0` is the same as `movsd name, %xmm0`<br>
+--we dont push 0 onto a FP stack then pop off into memory, we just `pxor` our register with the p meaning packed.
 ````assembly
 .section .data
 d1:	.double 1.23
@@ -268,8 +269,17 @@ d3:	.double 55.5
 	.globl main
 	main:
 		push %rax
+
+		movsd d2, %xmm0
+		mulsd d3, %xmm0		# xmm0 = d3 * d2
+
+		mov $format, %rdi	# string goes into rdi
+		movb $1, %al		# we're taking 2 parameters
+		call printf		
 		
-		call printf
+		pxor %xmm0, %xmm0	# p meaning packed, this is how we get 0.0f instead of using fldz
+		movsd %xmm0, d1		# d1 = 0.0
+		
 		pop %rax
 		ret
 ````
