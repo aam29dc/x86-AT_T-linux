@@ -227,7 +227,7 @@ main:
 ````
 ______________________________________________________________________________________________________________________________________________________
 <h3>FPU Register Stack vs SSE.</h3>
-______________________________________________________________________________________________________________________________________________________
+
 FPU Register Stack: we have 8 FP registers named `st(0)` to `st(7)` or `mm0` to `mm7`, st(0) always points to the top of the stack.<br>
 --Operations on floating point numbers are done in these registers; returns are stored in st(0); local variables use `fstp -4(%ebp)` to pop off FP stack into memory location on regular stack.<br>
 --immediate values aren't used for float instructions, instead use memory. There are instructions for pushing value 0 `fldz`, 1 `fld1` to top of FP stack, then pop `fstps -4(%ebp)` this off into a memory/register.<br>
