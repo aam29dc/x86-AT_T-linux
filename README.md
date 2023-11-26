@@ -223,8 +223,48 @@ In 32bit mode, we have 8 FP registers named `st(0)` to `st(7)` or `mm0` to `mm7`
 --When instructions are used like `flds var1` (where the s denotes single precision, and d double precision) this pushes the value var1 onto the FP Stack (therefore goes in st(0)/mm0); another `flds var2`, and st(0) now has var2, and st(1) has var1.<br>
 --`fstps var1` pops whats ontop of the FP Stack st(0) into memory location var1. <br>
 --Operations on floating point numbers are done in these registers; returns are stored in st(0); local variables use `fstp -4(%ebp)` to pop off FP stack into memory location on regular stack.
+````assembly
+.section .data
+f1:	.float 1.23
+f2:	.float 9.87
+f3:	.float 55.5
+format:		.string "%f\n"
+.section .text
+	.globl main
+	main:
+		pushl %rax		# for call printf, we'll be using 64bit arch to covert our float to a double
+		flds f1
+		flds f2
+		flds f3			# after this instruction, st(0) holds f3, and st(2) holds f1
+		fmul %st(1), %st(0)	# only certain FPU registers can be used. multplies st(0) * st(1) and stores it in st(0)
+		fstps f1		# pop off top of FPU stack, which is st(0), into memory location f1
 
+		movsd f1, %xmm0		# s = single, d = double word, q = quad word
+		cvrtss2sd %xmm0, %xmm0	# convert single precision to double precision and store it
+
+		movq format, %rdi	# string goes in rdi
+		movb $1, %al		# we're taking 2 parameters to printf
+		call printf
+		pop %rax
+
+		ret
+````
+______________________________________________________________________________________________________________________________________________________
 In 64bit mode, there are 16 FP registers (along w/ previous) named `xmm0` to `xmm15`.<br>
 --We don't push and pop values onto a FP stack, we just use `movss`,`movsd` either s/d for single/double precision, but this mov cannot use immediate values, instead a constant must be stored in memory.<br>
 --`cvtss2sd %xmm0, %xmm0` converts a single precision float to a double precision, and stores it back into `xmm0`<br>
 --`movsd name(%rip), %xmm0` is the same as `movsd name, %xmm0`<br>
+````assembly
+.section .data
+d1:	.double 1.23
+d2:	.double 9.87
+d3:	.double 55.5
+.section .text
+	.globl main
+	main:
+		push %rax
+		
+		call printf
+		pop %rax
+		ret
+````
