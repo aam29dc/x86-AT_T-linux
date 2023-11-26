@@ -1,10 +1,11 @@
 # x86-AT&T-linux-GAS-notes
+`main.s` uses our linked list library, our linked list library uses our allocator library and print library. our allocator and print libraries are written using only system interrupts. No external libraries are used. <br>
 
 `alloc.s` is for allocating memory on the heap, the heap grows upward. We initialize variables heap_begin, and current_break. Then we allocate some memory, thus moving current_break. This memory has a header, for avail/unavail and its size. We can use the size in the header to know where the next memory is, etc. When we free we just mark the memory has available.<br>
 
 `list.s` uses alloc.s to create a list on the heap, has simple functions<br>
 
-`print.s` takes a integer converts it to a string a prints<br>
+`print.s` takes a integer converts it to a string a prints (since we are not using printf) <br>
 
 seperate source files can be `as` assembled alone, then `ld` linked with other object files to include/use their sources: <br>
 `as alloc.s -o alloc.o`, then `as main.s -o main.o && ld main.o alloc.o -o program` <br>
