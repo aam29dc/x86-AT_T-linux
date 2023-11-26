@@ -199,7 +199,7 @@ The `call` instruction pushes 8 bytes (return address) onto the stack, but the S
 First parameter goes in `rdi`, <br>
 and second parameter goes into `rsi`.<br>
 <br>
-to assembly link, and run I used gcc: `gcc -no-pie -o file file.s && file`. gcc links in the c library, so no need to `#include`.
+to assemble, link, and run I used gcc: `gcc -no-pie -o file file.s && file`. gcc links in the c library, so no need to `#include`.
 ````assembly
 .section .data
 msg:
