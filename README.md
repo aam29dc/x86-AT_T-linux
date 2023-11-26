@@ -199,7 +199,7 @@ The `call` instruction pushes 8 bytes (return address) onto the stack, but the S
 First parameter goes in `rdi`, <br>
 and second parameter goes into `rsi`.<br>
 <br>
-to assemble, link, and run I used gcc: `gcc -no-pie -o file file.s && file`. gcc links in the c library, so no need to `#include`.
+to assemble, link, and run I used gcc: `gcc -no-pie -o file file.s && file`. gcc links in the c library, so no need to `#include`.<br>
 ````assembly
 .section .data
 msg:
@@ -214,3 +214,15 @@ main:
 	pop %rax
 	ret
 ````
+______________________________________________________________________________________________________________________________________________________
+Different instructions are used for 32 or 64bit mode when using the FPU. <br>
+
+In 32bit mode, we have 8 FP registers named `st(0)` to `st(7)` or `mm0` to `mm7`, st(0) always points to the top of the stack.<br>
+--When instructions are used like `flds var1` (where the s denotes single precision, and d double precision) this pushes the value var1 onto the FP Stack (therefore goes in st(0)/mm0); another `flds var2`, and st(0) now has var2, and st(1) has var1.<br>
+--`fstps var1` pops whats ontop of the FP Stack st(0) into memory location var1. <br>
+--Operations on floating point numbers are done in these registers; returns are stored in st(0); local variables use `fstp -4(%ebp)` to pop off FP stack into memory location on regular stack.
+
+In 64bit mode, there are 16 FP registers (along w/ previous) named `xmm0` to `xmm15`.
+--We don't push and pop values onto a FP stack, we just use `movss`,`movsd` either s/d for single/double precision, but this mov cannot use immediate values, instead a constant must be stored reference memory.
+--`cvtss2sd %xmm0, %xmm0` converts a single precision float to a double precision, and stores it back into `xmm0`
+--`movsd name(%rip), %xmm0` is the same as `movsd name, %xmm0`<br>
