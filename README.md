@@ -19,6 +19,8 @@ I get an error with directories from linker, so I put my asm folder in `/home/us
 
 `as --32 main.asm -o main.o && ld -melf_i386 main.o -o main && ./main` <br>
 
+The instruction pointer points to the <b>NEXT</b> instruction to be executed.
+
 ______________________________________________________________________________________________________________________________________________________
 immediate mode (`$`) on an element in the .data or .bss segment references the address. Without ($) immediate mode, it'll dereference the element to get the value. Add positive number of bytes to the address to get further elements
 ````assembly
