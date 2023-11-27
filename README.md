@@ -258,7 +258,7 @@ format:		.string "%f\n"
 
 		movq format, %rdi	# string goes in rdi
 		movb $1, %al		# we're taking 2 parameters to printf
-					# printf knows to llok in xmm0 for parameter
+					# printf knows to look in xmm0 for parameter
 		call printf
 		pop %rax		# realign to 16 bytes otherwise segmentation fault
 
