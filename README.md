@@ -39,27 +39,27 @@ ________________________________________________________________________________
 `push` is equal to a `sub` and then a `mov`, a `pop` a `mov` then an `add`. In the `_start` function `movl %esp, %ebp` to setup the base pointer; to be able to reference it. We should be able to replace -4(%ebp) with (%esp), but we use ebp as our reference, and add/sub to esp to move it.
 ````assembly
 .section .text
-	.globl _start
-	_start:
-		movl %esp, %ebp		#	different setup for the _start function, without this i can't use ebp
-					#	as a reference
-		
-		#push $123
-		subl $4, %esp
-		movl $123, -4(%ebp)
-		
-		# mov into a register, do something to it, move it back
-		movl -4(%ebp), %ebx
-		incl %ebx
-		movl %ebx, -4(%ebp)
-		
-		# value gets echo'd through this register
-		movl -4(%ebp), %ebx
-		
-		#pop
-		addl $4, %esp
-		movl $1, %eax
-		int $0x80
+.globl _start
+_start:
+	movl %esp, %ebp		#	different setup for the _start function, without this i can't use ebp
+				#	as a reference
+	
+	#push $123
+	subl $4, %esp
+	movl $123, -4(%ebp)
+	
+	# mov into a register, do something to it, move it back
+	movl -4(%ebp), %ebx
+	incl %ebx
+	movl %ebx, -4(%ebp)
+	
+	# value gets echo'd through this register
+	movl -4(%ebp), %ebx
+	
+	#pop
+	addl $4, %esp
+	movl $1, %eax
+	int $0x80
 ````
 ______________________________________________________________________________________________________________________________________________________
 <h3>C calling convetion for a function, the caller function (_start) calls/invokes a fuction (the callee).</h3>
@@ -73,21 +73,21 @@ Caller:<br>
 	6. restore contents of caller saved registers <br>
 ````assembly
 .section .text
-	.globl _start
-	_start:
-		...
-		pushl %eax	# save registers before calling function
-		pushl %ecx
-		pushl %edx
-		pushl $1	# last para
-		pushl var	# first para
-		call callee	# the callee
-		addl $8, %esp	# remove parameters
-				# return value in EAX
-		popl %edx	# restore registers
-		popl %ecx
-		popl %eax
-		...
+.globl _start
+_start:
+	...
+	pushl %eax	# save registers before calling function
+	pushl %ecx
+	pushl %edx
+	pushl $1	# last para
+	pushl var	# first para
+	call callee	# the callee
+	addl $8, %esp	# remove parameters
+			# return value in EAX
+	popl %edx	# restore registers
+	popl %ecx
+	popl %eax
+	...
 ````
 Callee: <br>
 	1. save old base pointer, <br>
@@ -100,24 +100,24 @@ Callee: <br>
        	7. restore base pointer, <br>
 	8. return <br>
 ````assembly
-	.globl callee
-	.type callee, @function
-	callee:
-		pushl %ebp	# save old ebp for before function returns
-		movl %esp, %ebp	# update base pointer
-		subl $4, %esp	# allocate storage for local variable(s)
+.globl callee
+.type callee, @function
+callee:
+	pushl %ebp	# save old ebp for before function returns
+	movl %esp, %ebp	# update base pointer
+	subl $4, %esp	# allocate storage for local variable(s)
 
-		pushl %ebx	# save callee registers
-		pushl %edi
-		pushl %esi
-		...		# do something
-		popl %esi	# restore callee registers
-		popl %edi
-		popl %ebx
+	pushl %ebx	# save callee registers
+	pushl %edi
+	pushl %esi
+	...		# do something
+	popl %esi	# restore callee registers
+	popl %edi
+	popl %ebx
 
-		movl %ebp, %esp	# removes local variable storage
-		popl %ebp	# restore old base pointer
-		ret		# pop ret add off into eip
+	movl %ebp, %esp	# removes local variable storage
+	popl %ebp	# restore old base pointer
+	ret		# pop ret add off into eip
 ````
 ______________________________________________________________________________________________________________________________________________________
 each character is a byte in a string,	%ebx holds the address of str, the first byte is the 0 character, `addl $1, %ebx` increments address to next byte, `movb (%ebx), %bl` moves the byte located at address %ebx into bl.
@@ -126,15 +126,15 @@ each character is a byte in a string,	%ebx holds the address of str, the first b
 str:		.ascii "0a\0"
 str_len:	.long str-str_len
 .section .text
-	.globl _start
-	_start:
-		movl $str, %ebx
-		#addb $1, %bl
-		#addw $1, %bx
-		addl $1, %ebx		# ^ all do the same thing
-		movb (%ebx), %bl	# dereference the value of the first byte, store it into %bl
-		movl $1, %eax
-		int $0x80
+.globl _start
+_start:
+	movl $str, %ebx
+	#addb $1, %bl
+	#addw $1, %bx
+	addl $1, %ebx		# ^ all do the same thing
+	movb (%ebx), %bl	# dereference the value of the first byte, store it into %bl
+	movl $1, %eax
+	int $0x80
 ````
 ______________________________________________________________________________________________________________________________________________________
 To get an address of a local variable on the stack, add ebp and the offset; this is equal to a LEA of the variable into a register. To dereference a local variable (which holds an address) in the stack, move it to a register.
@@ -237,29 +237,29 @@ f2:	.float 9.87
 f3:	.float 55.5
 format:		.string "%f\n"
 .section .text
-	.globl main
-	main:
-		pushl %rax		# for call printf, we'll be using 64bit arch to covert our float to a double
-		flds f1
-		flds f2
-		flds f3			# after this instruction, st(0) holds f3, and st(2) holds f1
-					# if we were to keep pushing, we'd run out of registers and stack overflow
-		fmul %st(1), %st(0)	# only certain FPU registers can be used. multplies st(0) * st(1) and stores it in st(0)
-		fstps f1		# pop off top of FPU stack, which is st(0), into memory location f1
+.globl main
+main:
+	pushl %rax		# for call printf, we'll be using 64bit arch to covert our float to a double
+	flds f1
+	flds f2
+	flds f3			# after this instruction, st(0) holds f3, and st(2) holds f1
+				# if we were to keep pushing, we'd run out of registers and stack overflow
+	fmul %st(1), %st(0)	# only certain FPU registers can be used. multplies st(0) * st(1) and stores it in st(0)
+	fstps f1		# pop off top of FPU stack, which is st(0), into memory location f1
 
-		fldz			# push 0.0f onto FP stack
-		ftps f3			# pop off into f3
+	fldz			# push 0.0f onto FP stack
+	ftps f3			# pop off into f3
 
-		movsd f1, %xmm0		# s = single, d = double word, q = quad word
-		cvrtss2sd %xmm0, %xmm0	# convert single precision to double precision and store it
+	movsd f1, %xmm0		# s = single, d = double word, q = quad word
+	cvrtss2sd %xmm0, %xmm0	# convert single precision to double precision and store it
 
-		movq format, %rdi	# string goes in rdi
-		movb $1, %al		# we're taking 2 parameters to printf
-					# printf knows to look in xmm0 for parameter
-		call printf
-		pop %rax		# realign to 16 bytes otherwise segmentation fault
+	movq format, %rdi	# string goes in rdi
+	movb $1, %al		# we're taking 2 parameters to printf
+				# printf knows to look in xmm0 for parameter
+	call printf
+	pop %rax		# realign to 16 bytes otherwise segmentation fault
 
-		ret
+	ret
 ````
 ______________________________________________________________________________________________________________________________________________________
 <b>SSE:</b> there are 16 FP registers (along w/ previous) named `xmm0` to `xmm15`.<br>
@@ -274,20 +274,20 @@ d2:	.double 9.87
 d3:	.double 55.5
 format:	.string "%f\n"
 .section .text
-	.globl main
-	main:
-		push %rax
+.globl main
+main:
+	push %rax
 
-		movsd d2, %xmm0
-		mulsd d3, %xmm0		# xmm0 = d3 * d2
+	movsd d2, %xmm0
+	mulsd d3, %xmm0		# xmm0 = d3 * d2
 
-		mov $format, %rdi	# string goes into rdi
-		movb $1, %al		# we're taking 2 parameters
-		call printf		
-		
-		pxor %xmm0, %xmm0	# p meaning packed, this is how we get 0.0f instead of using fldz
-		movsd %xmm0, d1		# d1 = 0.0
-		
-		pop %rax
-		ret
+	mov $format, %rdi	# string goes into rdi
+	movb $1, %al		# we're taking 2 parameters
+	call printf		
+	
+	pxor %xmm0, %xmm0	# p meaning packed, this is how we get 0.0f instead of using fldz
+	movsd %xmm0, d1		# d1 = 0.0
+	
+	pop %rax
+	ret
 ````
