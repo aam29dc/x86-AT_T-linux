@@ -123,10 +123,8 @@ ________________________________________________________________________________
 each character is a byte in a string,	%ebx holds the address of str, the first byte is the 0 character, `addl $1, %ebx` increments address to next byte, `movb (%ebx), %bl` moves the byte located at address %ebx into bl.
 ````assembly
 .section .data
-str:
-	.ascii "0a\0"
-str_len:
-	.long str-str_len
+str:		.ascii "0a\0"
+str_len:	.long str-str_len
 .section .text
 	.globl _start
 	_start:
@@ -213,8 +211,7 @@ and second parameter goes into `rsi`, unless its a float then it goes in `xmm0`.
 to assemble, link, and run I used gcc: `gcc -no-pie -o file file.s && file`. gcc links in the c library, so no need to `#include`.<br>
 ````assembly
 .section .data
-msg:
-	.string "%d\n"
+msg:	.string "%d\n"
 .section .text
 .globl main
 main:
