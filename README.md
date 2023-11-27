@@ -21,6 +21,8 @@ I get an error with directories from linker, so I put my asm folder in `/home/us
 
 The instruction pointer points to the <b>NEXT</b> instruction to be executed. This is our break point in a debugger, the break point isn't executed.
 
+`fstp st`, `fstp %st(0)` copied upon itself and popped, moving st(1) to st(0), etc
+
 ______________________________________________________________________________________________________________________________________________________
 immediate mode (`$`) on an element in the .data or .bss segment references the address. Without ($) immediate mode, it'll dereference the element to get the value. Add positive number of bytes to the address to get further elements
 ````assembly
@@ -68,10 +70,10 @@ ________________________________________________________________________________
 
 Caller:<br>
 	1. EAX, ECX, EDX are saved caller registers, <br>
-	2. parameters reverse order, onto the stack, <br>
+	2. parameters reverse order onto the stack, or if its float parameters: use xmm0 to xmm15 registers<br>
 	3. call the callee, <br>
 	4. remove parameters, <br>
-	5. return value in %eax, <br>
+	5. return value in %eax, or %xmm0 if it returns a float <br>
 	6. restore contents of caller saved registers <br>
 ````assembly
 .section .text
