@@ -23,8 +23,8 @@ ________________________________________________________________________________
 immediate mode (`$`) on an element in the .data or .bss segment references the address. Without ($) immediate mode, it'll dereference the element to get the value. Add positive number of bytes to the address to get further elements
 ````assembly
 .section .data
-  arr: .long 0,1,2,3,4,5
-  arr_size: .long arr_size - arr
+  arr: 		.long 	0,1,2,3,4,5
+  arr_size: 	.long	arr_size - arr
 .section .text
 .globl _start
 _start:
