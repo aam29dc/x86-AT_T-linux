@@ -208,7 +208,7 @@ ________________________________________________________________________________
 Use `main` instead of `_start`, and use `call exit`. printf(...) is a variadic function, which takes a variable number of parameters, which uses `%al`, so set to 0 by `xor %eax, %eax` before a call to printf to not use vector registers. <br>
 The `call` instruction pushes 8 bytes (return address) onto the stack, but the Stack Pointer must be aligned by 16-bytes; a `push %rax` and `pop %rax` before and after a call is required to realign the stack pointer, otherwise resulting in a segmentation fault. In main we can just `ret`.<br>
 First parameter goes in `rdi`, <br>
-and second parameter goes into `rsi`.<br>
+and second parameter goes into `rsi`, unless the its a float then it goes in `xmm0`.<br>
 <br>
 to assemble, link, and run I used gcc: `gcc -no-pie -o file file.s && file`. gcc links in the c library, so no need to `#include`.<br>
 ````assembly
